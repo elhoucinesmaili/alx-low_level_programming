@@ -42,4 +42,5 @@ void print_to_98(int n);
 /* 12. prints the n times table, starting with 0 */
 void print_times_table(int n);
 int main(void);
+void print_fibonacci(int n);
 #endif /* MAIN_H */
