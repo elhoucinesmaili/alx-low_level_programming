@@ -34,17 +34,17 @@ int main(void)
 {
 	int count;
 	unsigned long f1 = 1, f2 = 2, sum;
-	unsigned long mx = 100000000, flo = 0, f2o = 0, sumo = 0;
+	unsigned long mx = 100000000, f1o = 0, f2o = 0, sumo = 0;
 	int initialos;
 
 	for (count = 1; count <= 98; count++)
 	{
-		if (flo > 0)
-			printf("%lu", flo);
+		if (f1o > 0)
+			printf("%lu", f1o);
 
-		initialos = numLength(mx) + numLength(f1);
+		initialos = numLength(mx) - 1 - numLength(f1);
 
-		while (flo > 0 && initialos > 0)
+		while (f1o > 0 && initialos > 0)
 		{
 			printf("%d", 0);
 			initialos--;
@@ -53,10 +53,10 @@ int main(void)
 		printf("%lu", f1);
 
 		sum = (f1 + f2) % mx;
-		sumo = flo + f2o + (f1 + f2) / mx;
+		sumo = f1o + f2o + (f1 + f2) / mx;
 
 		f1 = f2;
-		flo = f2o;
+		f1o = f2o;
 		f2 = sum;
 		f2o = sumo;
 
@@ -68,4 +68,3 @@ int main(void)
 
 	return (0);
 }
-
