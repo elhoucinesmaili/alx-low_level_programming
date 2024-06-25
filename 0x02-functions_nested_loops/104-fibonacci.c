@@ -19,7 +19,7 @@ int main(void)
 	for (count = 3; count <= 98; count++)
 	{
 		next_fib = fib1 + fib2;
-		printf(", %lu", next_fib);
+		printf(", %lu", next_fib); /* Print Fibonacci number with comma separator */
 
 		fib1 = fib2;
 		fib2 = next_fib;
@@ -27,5 +27,5 @@ int main(void)
 
 	printf("\n"); /* Print new line at the end */
 
-	return (0);
+	return (0); /* Return success */
 }
