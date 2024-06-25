@@ -12,17 +12,19 @@ void times_table(void)
 		for (j = 0; j <= 9; j++)
 		{
 			result = i * j;
-			if (j == 0)
-				_putchar('0'); /* Print the first '0' explicitly */
-			else
-				_putchar(result / 10 + '0'); /* Print tens digit */
-			_putchar(result % 10 + '0'); /* Print units digit */
 
-			if (j < 9)
+			/* Print leading space for alignment */
+			if (j > 0)
 			{
-				_putchar(','); /* Print comma and space if not the last number */
+				_putchar(',');
 				_putchar(' ');
+				if (result < 10)
+					_putchar(' '); /* Extra space for single-digit numbers */
 			}
+
+			/* Print tens and units digit */
+			_putchar(result / 10 + '0');
+			_putchar(result % 10 + '0');
 		}
 		_putchar('\n'); /* Move to the next line after each row */
 	}
