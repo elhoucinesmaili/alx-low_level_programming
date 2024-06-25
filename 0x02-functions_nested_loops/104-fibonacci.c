@@ -1,31 +1,71 @@
 #include <stdio.h>
+#include "main.h"
+
+/**
+ * numLength - Returns the number of digits in an integer.
+ *
+ * @num: operand number
+ * Return: number of digits
+ */
+int numLength(int num)
+{
+	int length = 0;
+
+	if (num == 0)
+		return (1);
+
+	while (num != 0)
+	{
+		num = num / 10;
+		length++;
+	}
+
+	return (length);
+}
 
 /**
  * main - Entry point
  *
- * Description: Prints the first 98 Fibonacci numbers separated by commas,
- * starting with 1 and 2, followed by a newline.
- *
+ * Description: Prints the first 98 Fibonacci numbers starting with 1 and 2,
+ *              separated by commas, followed by a new line.
  * Return: Always 0 (Success)
  */
 int main(void)
 {
-	/* Variables for Fibonacci sequence */
-	unsigned long int fib1 = 1, fib2 = 2, next_fib;
 	int count;
+	unsigned long f1 = 1, f2 = 2, sum;
+	unsigned long mx = 100000000, flo = 0, f2o = 0, sumo = 0;
+	int initialos;
 
-	printf("%lu, %lu", fib1, fib2); /* Print first two Fibonacci numbers */
-
-	for (count = 3; count <= 98; count++)
+	for (count = 1; count <= 98; count++)
 	{
-		next_fib = fib1 + fib2;
-		printf(", %lu", next_fib); /* Print Fibonacci number with comma separator */
+		if (flo > 0)
+			printf("%lu", flo);
 
-		fib1 = fib2;
-		fib2 = next_fib;
+		initialos = numLength(mx) + numLength(f1);
+
+		while (flo > 0 && initialos > 0)
+		{
+			printf("%d", 0);
+			initialos--;
+		}
+
+		printf("%lu", f1);
+
+		sum = (f1 + f2) % mx;
+		sumo = flo + f2o + (f1 + f2) / mx;
+
+		f1 = f2;
+		flo = f2o;
+		f2 = sum;
+		f2o = sumo;
+
+		if (count != 98)
+			printf(", ");
+		else
+			printf("\n");
 	}
 
-	printf("\n"); /* Print new line at the end */
-
-	return (0); /* Return success */
+	return (0);
 }
+
