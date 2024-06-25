@@ -41,5 +41,5 @@ void print_to_98(int n);
 
 /* 12. prints the n times table, starting with 0 */
 void print_times_table(int n);
-
+int main(void);
 #endif /* MAIN_H */
