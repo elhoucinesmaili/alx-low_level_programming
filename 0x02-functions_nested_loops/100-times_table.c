@@ -1,48 +1,41 @@
-#include "main.h"
+#include <stdio.h>
 
 /**
- * print_times_table - prints the times table of n
- * @n: number to create the times table for (0 <= n <= 15)
+ * print_times_table - prints the multiplication table of n
+ * @n: the number up to which the table should be printed
  */
 void print_times_table(int n)
 {
-	if (n < 0 || n > 15)
-		return;
+	int prod, mult, num;
 
-	int row, column;
-
-	for (row = 0; row <= n; row++)
+	if (n <= 15 && n >= 0)
 	{
-		for (column = 0; column <= n; column++)
+		for (num = 0; num <= n; num++)
 		{
-			int product = row * column;
+			putchar('0'); /* Print the first character '0' manually */
 
-			if (column > 0)
+			for (mult = 1; mult <= n; mult++)
 			{
-				_putchar(',');
-				_putchar(' ');
+				putchar(',');
+				putchar(' ');
 
-				if (product < 100)
+				prod = num * mult;
+
+				/* Printing leading spaces based on the number of digits */
+				if (prod <= 9)
 				{
-					_putchar(' ');
-
-					if (product < 10)
-						_putchar(' ');
+					putchar(' ');
+					putchar(' ');
 				}
-			}
+				else if (prod <= 99)
+				{
+					putchar(' ');
+				}
 
-			if (product >= 100)
-			{
-				_putchar((product / 100) + '0');
-				_putchar(((product / 10) % 10) + '0');
+				/* Print the product itself */
+				printf("%d", prod);
 			}
-			else if (product >= 10)
-			{
-				_putchar((product / 10) + '0');
-			}
-
-			_putchar((product % 10) + '0');
+			putchar('\n');
 		}
-		_putchar('\n');
 	}
 }
