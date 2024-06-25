@@ -2,21 +2,18 @@
 
 /**
  * print_last_digit - prints the last digit of a number
- * @n: integer whose last digit is to be printed
+ * @n: the number to find the last digit of
  *
- * Return: value of the last digit
+ * Return: the value of the last digit
  */
 int print_last_digit(int n)
 {
-	/* Get the absolute value of n */
-	n = _abs(n);
+	int last_digit;
 
-	/* Get the last digit */
-	n = n % 10;
+	n = _abs(n); /* Assuming _abs function is properly defined in main.h */
 
-	/* Print the last digit */
-	_putchar(n + '0');
+	last_digit = n % 10;
+	_putchar(last_digit + '0');
 
-	/* Return the last digit */
-	return (n);
+	return (last_digit); /* Return statement with parentheses */
 }
