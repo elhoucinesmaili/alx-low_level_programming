@@ -43,4 +43,5 @@ void print_to_98(int n);
 void print_times_table(int n);
 int main(void);
 void print_fibonacci(int n);
+void print_fibonacci(int n);
 #endif /* MAIN_H */
