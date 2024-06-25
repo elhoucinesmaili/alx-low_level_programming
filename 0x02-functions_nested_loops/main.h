@@ -1,17 +1,15 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-/* Including standard library for size_t definition */
-#include <stddef.h>
+#include <stdio.h>
 
-/* _putchar - writes the character c to stdout */
 int _putchar(char c);
-
-/* 0. _putchar */
-void _putchar(void);
-
-/* 1. I sometimes suffer from insomnia */
 void print_alphabet(void);
+void print_alphabet_x10(void);
+int _islower(int c);
+int _isalpha(int c);
+int print_sign(int n);
+int _abs(int);
+int print_last_digit(int);
 
-/* 2. 10 x alphabet */
-void print_alphabet...
+#endif /* MAIN_H */
