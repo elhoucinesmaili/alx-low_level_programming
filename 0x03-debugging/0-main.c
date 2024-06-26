@@ -8,7 +8,7 @@ int main(void)
 {
 	int i;
 
-	i = 0; /* Change the value to test different cases */
+	i = 0;
 	positive_or_negative(i);
 
 	return (0);
