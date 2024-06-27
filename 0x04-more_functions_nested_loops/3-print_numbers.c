@@ -7,11 +7,15 @@
  */
 void print_numbers(void)
 {
-	int number;
+	/* Initialize number to start from '0' ASCII value */
+	int number = '0';
 
-	for (number = 0; number < 10; number++)
+	/* Loop through numbers from '0' to '9' */
+	while (number <= '9')
 	{
-		_putchar(number + '0');
+		_putchar(number); /* Print current number */
+		number++; /* Move to the next number */
 	}
-	_putchar('\n');
 
+	_putchar('\n'); /* Print newline character */
+}
