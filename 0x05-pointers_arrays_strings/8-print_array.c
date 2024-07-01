@@ -9,14 +9,19 @@
  */
 void print_array(int *a, int n)
 {
+	/* Initialize loop variable */
 	int i;
 
+	/* Loop through array elements */
 	for (i = 0; i < n; i++)
 	{
+		/* Print element with comma and space */
 		if (i == 0)
 			printf("%d", a[i]);
 		else
 			printf(", %d", a[i]);
 	}
-		printf("\n");
+
+	/* Print newline after printing all elements */
+	printf("\n");
 }
