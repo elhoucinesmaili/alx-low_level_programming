@@ -1,36 +1,49 @@
 #include "main.h"
+#include <limits.h>
 
 /**
- * _atoi - Converts a string to an integer.
- * @s: The string to be converted.
+ * _atoi - converts a string to an integer
+ * @s: string to be converted
  *
- * Return: The converted integer, or 0 if no valid integer is found.
+ * Return: the integer converted from the string
  */
 int _atoi(char *s)
 {
-	int sign = 1; /* Sign of the number, initialized to positive */
-	int num = 0;  /* Resulting number */
+	int i = 0;      /* Iterator for traversing the string */
+	int sign = 1;   /* Indicates the sign of the number, default positive */
+	int num = 0;    /* Resulting integer to be returned */
 
-	/* Skip whitespace characters */
-	while (*s == ' ' || (*s >= 9 && *s <= 13))
-		s++;
+	/* Skip any leading whitespace characters */
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
 
-	if (*s == '-')
+	/* Handle optional sign character */
+	if (s[i] == '-')
 	{
-		sign = -1;
-		s++;
+		sign = -1;  /* Negative sign */
+		i++;
 	}
-	else if (*s == '+')
+	else if (s[i] == '+')
 	{
-		s++;
-	}
-
-	/* Process digits and convert to integer */
-	while (*s >= '0' && *s <= '9')
-	{
-		num = num * 10 + (*s - '0');
-		s++;
+		i++;        /* Positive sign, move to next character */
 	}
 
+	/* Process each character until we encounter a non-digit */
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		/* Check for integer overflow */
+		if (num > (INT_MAX / 10) ||
+			  (num == INT_MAX / 10 && (s[i] - '0') > INT_MAX % 10))
+		{
+			/* Handle overflow scenario by returning INT_MAX or INT_MIN */
+			return (sign == 1 ? INT_MAX : INT_MIN);
+		}
+
+		/* Update the num by shifting digits and adding the current digit */
+		num = num * 10 + (s[i] - '0');
+		i++;
+	}
+
+	/* Apply the sign to the final result */
 	return (num * sign);
 }
