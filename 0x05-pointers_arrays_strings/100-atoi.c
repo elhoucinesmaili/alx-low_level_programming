@@ -1,5 +1,5 @@
 #include "main.h"
-#include <limits.h>
+#include <limits.h> /* for INT_MAX and INT_MIN */
 
 /**
  * _atoi - converts a string to an integer
@@ -9,41 +9,52 @@
  */
 int _atoi(char *s)
 {
-	int i = 0;      /* Iterator for traversing the string */
-	int sign = 1;   /* Indicates the sign of the number, default positive */
-	int num = 0;    /* Resulting integer to be returned */
+	int sign = 1;
+	int num = 0;
 
-	/* Skip any leading whitespace characters */
-	while (s[i] == ' ' || s[i] == '\t')
-		i++;
+	if (!s)
+		return (0);
 
-	/* Handle optional sign character */
-	if (s[i] == '-')
+	s += _skip_whitespace(s);
+
+	if (*s == '-')
 	{
-		sign = -1;  /* Negative sign */
-		i++;
+		sign = -1;
+		s++;
 	}
-	else if (s[i] == '+')
+	else if (*s == '+')
 	{
-		i++;        /* Positive sign, move to next character */
+		s++;
 	}
 
-	/* Process each character until we encounter a non-digit */
-	while (s[i] >= '0' && s[i] <= '9')
+	while (*s >= '0' && *s <= '9')
 	{
-		/* Check for integer overflow */
 		if (num > (INT_MAX / 10) ||
-			  (num == INT_MAX / 10 && (s[i] - '0') > INT_MAX % 10))
+		    (num == INT_MAX / 10 && (*s - '0') > INT_MAX % 10))
 		{
-			/* Handle overflow scenario by returning INT_MAX or INT_MIN */
 			return (sign == 1 ? INT_MAX : INT_MIN);
 		}
-
-		/* Update the num by shifting digits and adding the current digit */
-		num = num * 10 + (s[i] - '0');
-		i++;
+		num = num * 10 + (*s - '0');
+		s++;
 	}
 
-	/* Apply the sign to the final result */
 	return (num * sign);
+}
+
+/**
+ * _skip_whitespace - helper function to skip whitespace characters
+ * @s: string pointer
+ *
+ * Return: number of whitespace characters skipped
+ */
+int _skip_whitespace(char *s)
+{
+	int count = 0;
+
+	while (*s == ' ' || *s == '\t')
+	{
+		s++;
+		count++;
+	}
+	return (count);
 }
