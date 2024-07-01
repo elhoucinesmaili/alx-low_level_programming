@@ -40,21 +40,3 @@ int _atoi(char *s)
 
 	return (num * sign);
 }
-
-/**
- * _skip_whitespace - helper function to skip whitespace characters
- * @s: string pointer
- *
- * Return: number of whitespace characters skipped
- */
-int _skip_whitespace(char *s)
-{
-	int count = 0;
-
-	while (*s == ' ' || *s == '\t')
-	{
-		s++;
-		count++;
-	}
-	return (count);
-}
