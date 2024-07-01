@@ -1,42 +1,25 @@
 #include "main.h"
-#include <limits.h> /* for INT_MAX and INT_MIN */
 
 /**
  * _atoi - converts a string to an integer
- * @s: string to be converted
+ * @s: string input parameter
  *
- * Return: the integer converted from the string
+ * Return: converted integer from string
  */
 int _atoi(char *s)
 {
-	int sign = 1;
-	int num = 0;
+	unsigned int num = 0;	/** Initialize num to 0 */
+	int sign = 1;	/** Initialize sign to positive */
 
-	if (!s)
-		return (0);
+	/** Loop through the string */
+	do {
+		if (*s == '-')	/** Check if current character is '-' */
+			sign *= -1;	/** Toggle the sign */
+		else if (*s >= '0' && *s <= '9')	/** Check if current character is a digit */
+			num = (num * 10) + (*s - '0');	/** Update num with the new digit */
+		else if (num > 0)
+			break;	/** Exit the loop */
+	} while (*s++);	/** Move to the next character */
 
-	s += _skip_whitespace(s);
-
-	if (*s == '-')
-	{
-		sign = -1;
-		s++;
-	}
-	else if (*s == '+')
-	{
-		s++;
-	}
-
-	while (*s >= '0' && *s <= '9')
-	{
-		if (num > (INT_MAX / 10) ||
-		    (num == INT_MAX / 10 && (*s - '0') > INT_MAX % 10))
-		{
-			return (sign == 1 ? INT_MAX : INT_MIN);
-		}
-		num = num * 10 + (*s - '0');
-		s++;
-	}
-
-	return (num * sign);
+	return (num * sign);	/** Return the final number with its sign */
 }
