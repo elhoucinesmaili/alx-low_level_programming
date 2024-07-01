@@ -1,5 +1,3 @@
-#include "main.h"
-
 /**
  * _strcpy - copies the string pointed to by src
  * including the terminating null byte (\0)
@@ -11,14 +9,23 @@
  */
 char *_strcpy(char *dest, char *src)
 {
-	char *dest_start = dest;
+	/* Calculate the length of the source string */
 	int len = 0;
 
-	while (*(src + len))
+	while (src[len] != '\0')
 		len++;
 
-	for (int i = 0; i <= len; i++)
-		*(dest + i) = *(src + i);
+	/* Copy characters from src to dest */
+	int i;
 
-	return (dest_start);
+	for (i = 0; i < len; i++)
+		dest[i] = src[i];
+
+	/* Append the null terminator to dest */
+	dest[i] = '\0';
+
+	/* Blank line after declarations */
+
+	/* Return the pointer to dest */
+	return (dest);
 }
