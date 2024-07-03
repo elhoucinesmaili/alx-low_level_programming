@@ -6,34 +6,25 @@
  */
 void print_number(int n)
 {
-	int divisor = 1;
-	int digit;
-	int negative = 0;
-
 	if (n < 0)
 	{
 		_putchar('-');
-		n = -n;
-		negative = 1;
+		if (n == -2147483648)
+		{
+			/* Handle special case for INT_MIN */
+			_putchar('2');
+			n = 147483648;  /* convert to positive without sign overflow */
+		}
+		else
+		{
+			n = -n;  /* convert negative to positive */
+		}
 	}
 
-	/* Find the divisor to get the largest place value */
-	while (n / divisor >= 10)
+	if (n / 10 != 0)
 	{
-		divisor *= 10;
+		print_number(n / 10);
 	}
 
-	/* Extract and print each digit */
-	while (divisor != 0)
-	{
-		digit = n / divisor;
-		_putchar(digit + '0');
-		n %= divisor;
-		divisor /= 10;
-	}
-
-	if (negative)
-	{
-		_putchar('-');
-	}
+	_putchar(n % 10 + '0');
 }
