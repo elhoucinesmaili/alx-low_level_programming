@@ -1,10 +1,11 @@
 #include "main.h"
+#include <stdlib.h>
 
 /**
- * strtow - Splits a string into words
- * @str: The string to be split
+ * strtow - Splits a string into words.
+ * @str: The string to be split.
  *
- * Return: Pointer to the array of split words, or NULL on failure
+ * Return: Pointer to the array of split words, or NULL on failure.
  */
 char **strtow(char *str)
 {
@@ -27,11 +28,12 @@ char **strtow(char *str)
 			split[j] = (char *)malloc(sizeof(char) * (size + 1));
 			if (split[j] != NULL)
 			{
-				for (int temp = 0; temp < size; temp++)
-					split[j][temp] = str[i - size + temp];
+				int temp;
 
-				split[j][size] = '\0';  /* Null-terminate the word */
-				size = 0;               /* Reset size for next word */
+				for (temp = 0; temp < size; temp++)
+					split[j][temp] = str[i - size + temp];
+				split[j][size] = '\0'; /* Null-terminate the word */
+				size = 0;              /* Reset size for next word */
 				j++;
 			}
 			else
@@ -48,10 +50,10 @@ char **strtow(char *str)
 }
 
 /**
- * num_words - Counts the number of words in a string
- * @str: The string to be analyzed
+ * num_words - Counts the number of words in a string.
+ * @str: The string to be analyzed.
  *
- * Return: The number of words
+ * Return: The number of words.
  */
 int num_words(char *str)
 {
@@ -77,10 +79,10 @@ int num_words(char *str)
 }
 
 /**
- * len - Returns the length of a string
- * @str: The string to be measured
+ * len - Returns the length of a string.
+ * @str: The string to be measured.
  *
- * Return: Length of the string
+ * Return: Length of the string.
  */
 int len(char *str)
 {
