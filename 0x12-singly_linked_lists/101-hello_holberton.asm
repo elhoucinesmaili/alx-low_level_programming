@@ -1,15 +1,19 @@
 SECTION .data
-msg:	db "Hello, Holberton", 0
-fmt:	db "%s", 10, 0
+msg:    db "Hello, Holberton", 0   ; Null-terminated string to print
+fmt:    db "%s", 0                ; Format string for printf
 
-	SECTION .text
-	extern printf
-	global main
+SECTION .text
+extern printf
+global main
+
 main:
-	mov esi, msg
-	mov edi, fmt
-	mov eax, 0
-	call printf
+    ; Prepare arguments for printf
+    mov rdi, fmt     ; Format string as the first argument
+    mov rsi, msg     ; Message string as the second argument
 
-	mov eax, 0
-	ret
+    ; Call printf
+    call printf
+
+    ; Exit the program
+    mov eax, 0       ; Return 0 status
+    ret
