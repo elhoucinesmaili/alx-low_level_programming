@@ -1,21 +1,18 @@
 section .data
-    msg db 'Hello, Holberton', 0xa  ; String to print with newline character
-    len equ $ - msg                 ; Length of the string
+    msg db 'Hello, Holberton', 0   ; The message to print followed by a null terminator
+    fmt db '%s', 0                 ; Format string for printf
 
 section .text
-    extern printf
-    global _start
+    extern printf                  ; Declare printf function
+    global _start                  ; Entry point for the program
 
 _start:
-    ; Prepare the arguments for printf
-    mov rdi, fmt                   ; Format string
-    mov rsi, msg                   ; Message to print
-    call printf                    ; Call printf
+    ; Prepare arguments for printf
+    mov rdi, fmt                   ; Format string (first argument)
+    mov rsi, msg                   ; Message to print (second argument)
+    call printf                    ; Call printf function
 
     ; Exit the program
-    mov rax, 60                    ; syscall: exit
-    xor rdi, rdi                   ; status: 0
-    syscall                        ; invoke syscall
-
-section .data
-    fmt db '%s', 0                 ; Format string for printf
+    mov rax, 60                    ; syscall number for exit
+    xor rdi, rdi                   ; status code 0
+    syscall                        ; invoke syscall to exit
