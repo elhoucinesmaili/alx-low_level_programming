@@ -1,18 +1,24 @@
-section .data
-    msg db 'Hello, Holberton', 0   ; The message to print followed by a null terminator
-    fmt db '%s', 0                 ; Format string for printf
+SECTION .data
+message db "Hello, Holberton", 0
+format db "%s", 10, 0
 
-section .text
-    extern printf                  ; Declare printf function
-    global _start                  ; Entry point for the program
+SECTION .text
+extern printf
+global _start
 
 _start:
-    ; Prepare arguments for printf
-    mov rdi, fmt                   ; Format string (first argument)
-    mov rsi, msg                   ; Message to print (second argument)
-    call printf                    ; Call printf function
-
-    ; Exit the program
-    mov rax, 60                    ; syscall number for exit
-    xor rdi, rdi                   ; status code 0
-    syscall                        ; invoke syscall to exit
+    ; Load the address of the message into the RSI register
+    mov rsi, message
+    ; Load the address of the format string into the RDI register
+    mov rdi, format
+    ; Clear the RAX register (no floating point arguments)
+    xor rax, rax
+    ; Call the printf function
+    call printf
+    ; Exit the program (if using Linux system calls)
+    ; Move exit code 0 into RDI register
+    mov rdi, 0
+    ; Use syscall number for exit (60) into RAX register
+    mov rax, 60
+    ; Perform the syscall
+    syscall
