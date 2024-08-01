@@ -1,19 +1,18 @@
-SECTION .data
-msg:    db "Hello, Holberton", 0   ; Null-terminated string to print
-fmt:    db "%s", 0                ; Format string for printf with null terminator
+section .data
+msg: db "Hello, Holberton", 0
+fmt: db "%s", 10, 0
 
-SECTION .text
+section .text
 extern printf
 global main
 
 main:
-    ; Prepare arguments for printf
-    mov rdi, fmt     ; Format string as the first argument
-    mov rsi, msg     ; Message string as the second argument
-
-    ; Call printf
+    push rbp
+    mov rdi, fmt
+    mov rsi, msg
+    mov rax, 0
     call printf
+    pop rbp
 
-    ; Exit the program
-    mov eax, 0       ; Return 0 status
+    mov rax, 0
     ret
