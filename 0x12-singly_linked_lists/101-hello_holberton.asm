@@ -1,6 +1,6 @@
 SECTION .data
 msg:    db "Hello, Holberton", 0   ; Null-terminated string to print
-fmt:    db "%s", 0                ; Format string for printf
+fmt:    db "%s", 0                ; Format string for printf with null terminator
 
 SECTION .text
 extern printf
