@@ -3,89 +3,35 @@
 #include <stdio.h>
 
 /**
- * print_listint_safe - Prints a listint_t linked list, even if it has a loop.
- * @head: Pointer to the head of the list.
+ * print_listint_safe - function that prints a listint_t linked list.
+ * @head: pointer to the head of linked list.
  *
- * Return: The number of nodes in the list.
+ * This function can print lists with a loop.
+ * You should go through the list only once.
+ * If the function fails, exit the program with status 98.
+ *
+ * Return: the number of nodes in the list.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	const listint_t *current = head;
-	const listint_t *checker;
+	listnode_t *nodes = NULL; /* stores address of nodes */
 	size_t count = 0;
 
-	while (current)
+	while (!is_in_nodes(nodes, head))
 	{
-		printf("[%p] %d\n", (void *)current, current->n);
-		count++;
-		checker = head;
-
-		while (checker != current)
+		if (!add_nodeptr(&nodes, head))
 		{
-			if (checker == current->next)
-			{
-				printf("-> [%p] %d\n", (void *)current->next, current->next->n);
-				return (count);
-			}
-			checker = checker->next;
+			free_listnode(nodes);
+			exit(98);
 		}
-		current = current->next;
-	}
-	return (count);
-}
-
-/**
- * add_nodeint - Adds a new node at the beginning of a listint_t list.
- * @head: Double pointer to the head of the list.
- * @n: Value to add to the new node.
- *
- * Return: The address of the new element, or NULL if it failed.
- */
-listint_t *add_nodeint(listint_t **head, const int n)
-{
-	listint_t *new_node = malloc(sizeof(listint_t));
-
-	if (!new_node)
-		return (NULL);
-	new_node->n = n;
-	new_node->next = *head;
-	*head = new_node;
-
-	return (new_node);
-}
-
-/**
- * free_listint_safe - Frees a listint_t list safely (handles loops).
- * @h: Double pointer to the head of the list.
- *
- * Return: The size of the list that was freed.
- */
-size_t free_listint_safe(listint_t **h)
-{
-	listint_t *current, *checker;
-	size_t count = 0;
-
-	if (!h || !*h)
-		return (0);
-
-	while (*h)
-	{
-		current = *h;
-		checker = *h;
-
-		while (checker != current)
-		{
-			if (checker == current->next)
-			{
-				*h = NULL;
-				return (count);
-			}
-			checker = checker->next;
-		}
-		*h = (*h)->next;
-		free(current);
+		printf("[%p] %d\n", (void *)head, head->n);
 		count++;
+		head = head->next;
 	}
-	*h = NULL;
+
+	if (head != NULL)
+		printf("-> [%p] %d\n", (void *)head, head->n);
+
+	free_listnode(nodes);
 	return (count);
 }
