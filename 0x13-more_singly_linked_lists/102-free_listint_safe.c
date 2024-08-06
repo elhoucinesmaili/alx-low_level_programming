@@ -1,12 +1,12 @@
 #include "lists.h"
 
 /**
- * free_listp2 - frees a linked list of listp_t
- * @head: pointer to the head of the list.
+ * free_listp3 - frees a linked list of pointers
+ * @head: head of the list.
  *
  * Return: no return.
  */
-void free_listp2(listp_t **head)
+void free_listp3(listp_t **head)
 {
 	listp_t *temp;
 	listp_t *curr;
@@ -24,51 +24,46 @@ void free_listp2(listp_t **head)
 }
 
 /**
- * free_listint_safe - frees a linked list safely
- * @h: double pointer to the head of the list.
+ * free_listint_safe - frees a linked list and handles circular references.
+ * @h: head of the list.
  *
- * Description: The function frees a linked list while avoiding infinite loops
- * by keeping track of previously seen nodes. It uses a `listp_t` linked list
- * to track nodes and ensures proper memory deallocation.
- * Return: the number of nodes that were freed.
+ * Return: size of the list that was freed.
  */
 size_t free_listint_safe(listint_t **h)
 {
 	size_t nnodes = 0;
-	listp_t *hptr = NULL;
-	listp_t *new;
-	listp_t *add;
-	listint_t *curr;
+	listp_t *hptr = NULL, *new_node, *add_node;
+	listint_t *current_node;
 
 	while (*h != NULL)
 	{
-		new = malloc(sizeof(listp_t));
-		if (new == NULL)
+		new_node = malloc(sizeof(listp_t));
+		if (new_node == NULL)
 			exit(98);
 
-		new->p = (void *)*h;
-		new->next = hptr;
-		hptr = new;
+		new_node->p = (void *)*h;
+		new_node->next = hptr;
+		hptr = new_node;
 
-		add = hptr;
-		while (add->next != NULL)
+		add_node = hptr;
+		while (add_node->next != NULL)
 		{
-			add = add->next;
-			if (*h == add->p)
+			add_node = add_node->next;
+			if (*h == add_node->p)
 			{
 				*h = NULL;
-				free_listp2(&hptr);
+				free_listp3(&hptr);
 				return (nnodes);
 			}
 		}
 
-		curr = *h;
+		current_node = *h;
 		*h = (*h)->next;
-		free(curr);
+		free(current_node);
 		nnodes++;
 	}
 
 	*h = NULL;
-	free_listp2(&hptr);
+	free_listp3(&hptr);
 	return (nnodes);
 }
