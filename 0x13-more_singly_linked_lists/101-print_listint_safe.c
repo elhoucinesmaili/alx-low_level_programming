@@ -28,7 +28,6 @@ size_t print_listint_safe(const listint_t *head)
 			exit(98);
 		}
 		/* print address of current node and the value of field n */
-		/* cast it a void pointer in order to print the address */
 		printf("[%p] %d\n", (void *)head, head->n);
 		/* count the nodes */
 		count++;
@@ -76,6 +75,7 @@ void free_listnode(listnode_t *head)
 	free_listnode(head->next);
 	free(head);
 }
+
 
 /**
  * is_in_nodes - checks whether a given address is in a given list
