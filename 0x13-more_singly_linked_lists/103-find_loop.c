@@ -1,54 +1,41 @@
 #include "lists.h"
 
 /**
- * checker - helper function that checks if we are in a loop
- * @head: the head node
+ * find_listint_loop - finds the loop in a linked list.
+ * @head: head of the list.
  *
- * Description: This function will check if we are in a loop by using
- * two pointers, one advancing twice as fast as the other. If they meet,
- * a loop exists.
- * Return: either NULL or the node where a loop exists
- */
-listint_t *checker(listint_t *head)
-{
-	listint_t *lagging = NULL;
-	listint_t *leading = NULL;
-
-	lagging = leading = head; /* Initialize both pointers to the head */
-	while (lagging)
-	{
-		lagging = lagging->next;
-		leading = leading->next; /* Move the leading pointer */
-		if (leading && leading->next)
-			leading = leading->next; /* Move the leading pointer again */
-		else
-			return (NULL); /* No loop found */
-		if (lagging == leading) /* Loop detected */
-			return (leading);
-	}
-	return (NULL);
-}
-
-/**
- * find_listint_loop - finds where the loop in a linked list starts
- * @head: the head node
- *
- * Description: This function uses the `checker` function to detect loops.
- * It checks if the returned pointer from `checker` is equal to the head
- * node. If so, it returns the head. Otherwise, it increments the head
- * and repeats the check.
- * Return: The address of the node where the loop starts, or NULL if none
+ * Return: the address of the node where the loop starts,
+ * or NULL if there is no loop.
  */
 listint_t *find_listint_loop(listint_t *head)
 {
-	listint_t *loop_node;
+	listint_t *slow, *fast;
 
-	while ((loop_node = checker(head))) /* Check for loop */
+	if (head == NULL)
+		return (NULL);
+
+	slow = head;
+	fast = head;
+
+	/* Move fast pointer by 2 steps and slow pointer by 1 step */
+	while (fast != NULL && fast->next != NULL)
 	{
-		if (loop_node == head) /* Loop starts at the head */
-			return (head);
-		head = head->next; /* Move to the next node */
+		slow = slow->next;
+		fast = fast->next->next;
+
+		/* If there is a loop, the fast pointer will meet the slow pointer */
+		if (slow == fast)
+		{
+			/* Move slow pointer to the head and find the start of the loop */
+			slow = head;
+			while (slow != fast)
+			{
+				slow = slow->next;
+				fast = fast->next;
+			}
+			return (slow); /* Both pointers are at the start of the loop */
+		}
 	}
+
 	return (NULL); /* No loop found */
 }
-
