@@ -1,50 +1,45 @@
 #include "search_algos.h"
-#include <stdio.h>
 
 /**
- * binary_search - Searches for a value in a sorted array of integers
- *                 using the Binary search algorithm.
+ * binary_search - Performs a binary search on a sorted array of integers
+ *                 to find a specific value.
  * @array: Pointer to the first element of the array to search in.
  * @size: Number of elements in the array.
- * @value: Value to search for.
+ * @value: The value to search for.
  *
- * Return: The index where the value is located,
- *         or -1 if the value is not present or the array is NULL.
+ * Return: The index where the value is located, or -1 if the value is not
+ *         present or the array is NULL.
  */
 int binary_search(int *array, size_t size, int value)
 {
-    size_t mid, left, right;
+	size_t i, left, right;
 
-    if (!array)
-        return (-1);
+	if (!array)
+		return (-1);
 
-    left = 0;
-    right = size - 1;
+	for (left = 0, right = size - 1; right >= left;)
+	{
+		/* Print the current search range */
+		printf("Searching in array: ");
+		for (i = left; i < right; i++)
+			printf("%d, ", array[i]);
+		printf("%d\n", array[i]);
 
-    while (left <= right)
-    {
-        /* Print the current search range */
-        printf("Searching in array: ");
-        for (size_t i = left; i <= right; i++)
-        {
-            printf("%d", array[i]);
-            if (i < right)
-                printf(", ");
-        }
-        printf("\n");
+		/* Calculate the middle index */
+		i = left + (right - left) / 2;
 
-        /* Calculate the middle index */
-        mid = left + (right - left) / 2;
+		/* Check if the middle element is the target value */
+		if (array[i] == value)
+			return (i);
 
-        if (array[mid] == value)
-            return (mid); /* Return index if value is found */
+		/* Narrow the search range based on the value */
+		if (array[i] > value)
+			right = i - 1;
+		else
+			left = i + 1;
+	}
 
-        if (array[mid] < value)
-            left = mid + 1; /* Narrow search to the right subarray */
-        else
-            right = mid - 1; /* Narrow search to the left subarray */
-    }
-
-    return (-1); /* Return -1 if value is not found */
+	/* Return -1 if the value is not found */
+	return (-1);
 }
 
