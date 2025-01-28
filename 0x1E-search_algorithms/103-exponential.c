@@ -1,76 +1,54 @@
 #include "search_algos.h"
 
-size_t get_min(size_t a, size_t b);
-int perform_binary_search(int *array, size_t low, size_t high, int value);
-
 /**
- * get_min - Returns the smaller of two size_t values
- * @a: First value
- * @b: Second value
+ * interpolation_search - Searches for a value in a sorted array of integers
+ *                        using the interpolation search algorithm.
+ * @array: Pointer to the first element of the array to search in.
+ * @size: The number of elements in the array.
+ * @value: The value to search for.
  *
- * Return: The smaller value between `a` and `b`
+ * Return: The first index containing `value`, or -1 if `value` is not found
+ *         or `array` is NULL.
  */
-size_t get_min(size_t a, size_t b)
+int interpolation_search(int *array, size_t size, int value)
 {
-	return (a < b ? a : b);
-}
+	size_t low = 0;
+	size_t high = size - 1;
+	size_t pos;
 
-/**
- * perform_binary_search - Performs a binary search on a portion of an array
- * @array: Pointer to the first element of the array
- * @low: Starting index for the binary search
- * @high: Ending index for the binary search
- * @value: Value to search for
- *
- * Return: Index of the value if found, or -1 otherwise
- */
-int perform_binary_search(int *array, size_t low, size_t high, int value)
-{
-	size_t mid, i;
-
-	while (low <= high)
-	{
-		mid = low + (high - low) / 2;
-		printf("Searching in array: ");
-		for (i = low; i <= high; i++)
-			printf("%d%s", array[i], (i == high ? "\n" : ", "));
-
-		if (array[mid] < value)
-			low = mid + 1;
-		else if (array[mid] > value)
-			high = mid - 1;
-		else
-			return ((int)mid);
-	}
-
-	return (-1);
-}
-
-/**
- * exponential_search - Searches for a value in a sorted array using
- * the Exponential Search algorithm
- * @array: Pointer to the first element of the array
- * @size: Number of elements in the array
- * @value: Value to search for
- *
- * Return: First index containing `value`, or -1 if not found or `array` is NULL
- */
-int exponential_search(int *array, size_t size, int value)
-{
-	size_t bound = 1, low, high;
-
-	if (!array || size == 0)
+	if (!array)
 		return (-1);
 
-	while (bound < size && array[bound] < value)
+	/* Perform interpolation search as long as conditions hold */
+	while ((array[high] != array[low]) &&
+	       (value >= array[low]) && (value <= array[high]))
 	{
-		printf("Value checked array[%lu] = [%d]\n", bound, array[bound]);
-		bound *= 2;
+		/* Calculate the probable position using the interpolation formula */
+		pos = low + (((double)(high - low) / (array[high] - array[low]))
+			    * (value - array[low]));
+
+		/* Print the current position being checked */
+		printf("Value checked array[%lu] = [%d]\n", pos, array[pos]);
+
+		/* Adjust search range based on the comparison */
+		if (array[pos] < value)
+			low = pos + 1;
+		else if (value < array[pos])
+			high = pos - 1;
+		else
+			return (pos); /* Return the index if value is found */
 	}
 
-	low = bound / 2;
-	high = get_min(bound, size - 1);
-	printf("Value found between indexes [%lu] and [%lu]\n", low, high);
+	/* Check the last remaining element */
+	if (value == array[low])
+	{
+		printf("Value checked array[%lu] = [%d]\n", low, array[low]);
+		return (low);
+	}
 
-	return (perform_binary_search(array, low, high, value));
+	/* If the value is not within the range, print and return -1 */
+	pos = low + (((double)(high - low) / (array[high] - array[low]))
+		     * (value - array[low]));
+	printf("Value checked array[%lu] is out of range\n", pos);
+	return (-1);
 }
