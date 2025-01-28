@@ -1,54 +1,87 @@
 #include "search_algos.h"
 
+int binary_search_helper(int *array, int value,
+             size_t low, size_t high);
+size_t min(size_t a, size_t b);
+
 /**
- * interpolation_search - Searches for a value in a sorted array of integers
- *                        using the interpolation search algorithm.
- * @array: Pointer to the first element of the array to search in.
- * @size: The number of elements in the array.
- * @value: The value to search for.
+ * min - returns the minimum of two size_t values
+ * @a: first value
+ * @b: second value
  *
- * Return: The first index containing `value`, or -1 if `value` is not found
- *         or `array` is NULL.
+ * Return: `a` if lower or equal to `b`, `b` otherwise
  */
-int interpolation_search(int *array, size_t size, int value)
+size_t min(size_t a, size_t b)
 {
-	size_t low = 0;
-	size_t high = size - 1;
-	size_t pos;
+    return (a <= b ? a : b);
+}
 
-	if (!array)
-		return (-1);
+/**
+ * binary_search_helper - searches for a value in an integer array using a
+ * binary search algorithm, not guaranteed to return lowest index if `value`
+ * appears twice in `array` (modified from `binary_search`)
+ * @array: pointer to first element of array to seach
+ * @value: value to search for
+ * @low: starting index
+ * @high: ending index
+ *
+ * Return: index containing `value`, or -1 if `value` not found or
+ * `array` is NULL
+ */
 
-	/* Perform interpolation search as long as conditions hold */
-	while ((array[high] != array[low]) &&
-	       (value >= array[low]) && (value <= array[high]))
-	{
-		/* Calculate the probable position using the interpolation formula */
-		pos = low + (((double)(high - low) / (array[high] - array[low]))
-			    * (value - array[low]));
+int binary_search_helper(int *array, int value,
+             size_t low, size_t high)
+{
+    size_t mid, i;
 
-		/* Print the current position being checked */
-		printf("Value checked array[%lu] = [%d]\n", pos, array[pos]);
+    if (!array)
+        return (-1);
 
-		/* Adjust search range based on the comparison */
-		if (array[pos] < value)
-			low = pos + 1;
-		else if (value < array[pos])
-			high = pos - 1;
-		else
-			return (pos); /* Return the index if value is found */
-	}
+    while (low <= high)
+    {
+        mid = (low + high) / 2;
+        printf("Searching in array: ");
+        for (i = low; i <= high; i++)
+            printf("%i%s", array[i], i == high ? "\n" : ", ");
+        if (array[mid] < value)
+            low = mid + 1;
+        else if (array[mid] > value)
+            high = mid - 1;
+        else
+            return ((int)mid);
+    }
 
-	/* Check the last remaining element */
-	if (value == array[low])
-	{
-		printf("Value checked array[%lu] = [%d]\n", low, array[low]);
-		return (low);
-	}
+    return (-1);
+}
 
-	/* If the value is not within the range, print and return -1 */
-	pos = low + (((double)(high - low) / (array[high] - array[low]))
-		     * (value - array[low]));
-	printf("Value checked array[%lu] is out of range\n", pos);
-	return (-1);
+/**
+ * exponential_search - searches for a value in a sorted array of integers
+ * using an exponential search algorithm
+ * @array: pointer to first element of array to search
+ * @size: number of elements in array
+ * @value: value to search for
+ *
+ * Return: first index containing `value`, or -1 if `value` not found or
+ * `array` is NULL
+ */
+
+int exponential_search(int *array, size_t size, int value)
+{
+    size_t low, high, bound = 1;
+
+    if (!array || size == 0)
+        return (-1);
+
+    while (bound < size && array[bound] < value)
+    {
+        printf("Value checked array[%lu] = [%d]\n",
+               bound, array[bound]);
+        bound *= 2;
+    }
+
+    low = bound / 2;
+    high = min(bound, size - 1);
+    /* 'found' message generated even if array[high] < value */
+    printf("Value found between indexes [%lu] and [%lu]\n", low, high);
+    return (binary_search_helper(array, value, low, high));
 }
