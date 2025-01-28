@@ -2,48 +2,54 @@
 
 /**
  * interpolation_search - Searches for a value in a sorted array of integers
- *                        using the Interpolation Search algorithm.
- * @array: Pointer to the first element of the array to search.
- * @size: Number of elements in the array.
+ *                        using the interpolation search algorithm.
+ * @array: Pointer to the first element of the array to search in.
+ * @size: The number of elements in the array.
  * @value: The value to search for.
  *
- * Return: The first index where the value is located, or -1 if not found
- *         or the array is NULL.
+ * Return: The first index containing `value`, or -1 if `value` is not found
+ *         or `array` is NULL.
  */
 int interpolation_search(int *array, size_t size, int value)
 {
-	size_t low = 0, high = size - 1, pos;
+	size_t low = 0;
+	size_t high = size - 1;
+	size_t pos;
 
-	if (array == NULL || size == 0)
+	if (!array)
 		return (-1);
 
-	while (low <= high && value >= array[low] && value <= array[high])
+	/* Perform interpolation search as long as conditions hold */
+	while ((array[high] != array[low]) &&
+	       (value >= array[low]) && (value <= array[high]))
 	{
-		/* Calculate the probe position */
-		pos = low + ((value - array[low]) * (high - low) / 
-		             (array[high] - array[low]));
+		/* Calculate the probable position using the interpolation formula */
+		pos = low + (((double)(high - low) / (array[high] - array[low]))
+			    * (value - array[low]));
 
 		/* Print the current position being checked */
 		printf("Value checked array[%lu] = [%d]\n", pos, array[pos]);
 
-		/* Check if the value is found */
-		if (array[pos] == value)
-			return ((int)pos);
-
-		/* Adjust the search range */
+		/* Adjust search range based on the comparison */
 		if (array[pos] < value)
 			low = pos + 1;
-		else
+		else if (value < array[pos])
 			high = pos - 1;
+		else
+			return (pos); /* Return the index if value is found */
 	}
 
-	/* If the value was not found, handle the out-of-range case */
-	if (low <= high)
+	/* Check the last remaining element */
+	if (value == array[low])
 	{
-		pos = low + ((value - array[low]) * (high - low) / 
-		             (array[high] - array[low]));
-		printf("Value checked array[%lu] is out of range\n", pos);
+		printf("Value checked array[%lu] = [%d]\n", low, array[low]);
+		return (low);
 	}
 
+	/* If the value is not within the range, print and return -1 */
+	pos = low + (((double)(high - low) / (array[high] - array[low]))
+		     * (value - array[low]));
+	printf("Value checked array[%lu] is out of range\n", pos);
 	return (-1);
 }
+
